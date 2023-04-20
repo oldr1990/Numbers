@@ -1,7 +1,6 @@
 package com.example.numbers.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -20,12 +19,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.numbers.R
 import com.example.numbers.models.NumberType
 import com.example.numbers.navigation.Routes
 import com.example.numbers.ui.components.NBProgressBar
@@ -81,7 +82,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                 ) {
                     Icon(
                         Icons.Default.KeyboardArrowUp,
-                        "Nav to top",
+                        stringResource(id = R.string.scroll_to_top),
                         tint = Color.White,
                         modifier = Modifier
                             .padding(0.dp)
@@ -91,7 +92,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
             }
         },
         topBar = {
-            NBTopBar("Numbers", navController, false)
+            NBTopBar(stringResource(id = R.string.app_name), navController, false)
         },
     ) {
         LazyColumn(
@@ -122,7 +123,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                                 ),
                                 keyboardActions = KeyboardActions(onDone = { viewModel.startSearch() }),
                                 label = {
-                                    Text(text = "Enter your number")
+                                    Text(text = stringResource(id = R.string.enter_your_number))
                                 },
                                 onValueChange = { search -> viewModel.searchChanged(search.take(10)) },
                             )
@@ -131,7 +132,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                                 elevation = ButtonDefaults.elevation(),
                                 onClick = { viewModel.startSearch() }
                             ) {
-                                Text(text = "Get fact")
+                                Text(text = stringResource(id = R.string.get_fact))
                             }
                         }
                         FlowRow(
@@ -161,7 +162,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                             elevation = ButtonDefaults.elevation(),
                             onClick = { viewModel.startSearch(true) }
                         ) {
-                            Text(text = "Get fact about random number")
+                            Text(text = stringResource(id = R.string.get_fact_random))
                         }
 
                     }
@@ -171,7 +172,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
             if (state.value.list.isEmpty()) item {
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
-                    text = "Search history is empty",
+                    text = stringResource(id = R.string.empty_cache),
                     style = MaterialTheme.typography.h3.copy(color = MaterialTheme.colors.primaryVariant)
                 )
             } else items(state.value.list.size) { index ->

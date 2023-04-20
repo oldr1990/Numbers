@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Numbers</string>
+    <string name="enter_your_number">Enter your number</string>
+    <string name="get_fact">Get fact</string>
+    <string name="get_fact_random">Get fact about random number</string>
+    <string name="scroll_to_top">Scroll to top</string>
+    <string name="empty_input_error">Enter your number first!</string>
+    <string name="default_error">Something went wrong</string>
+    <string name="empty_cache">Search history is empty</string>
 </resources>
