@@ -2,10 +2,15 @@ package com.example.numbers.screens.home
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.numbers.models.NumberType
 import com.example.numbers.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
@@ -23,7 +28,15 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     fun startSearch(isRandom: Boolean = false) {
+        viewModelScope.launch {
+          _state.value = _state.value.copy(isLoading = true)
+          delay(1.seconds)
+            _state.value = _state.value.copy(isLoading = false)
+        }
+    }
 
+    fun typeChanged(type: NumberType){
+        _state.value = _state.value.copy(type = type)
     }
 
     sealed interface ScreenEvent {

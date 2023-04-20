@@ -8,23 +8,26 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.numbers.models.NumberType
 import com.example.numbers.navigation.Routes
 import com.example.numbers.ui.components.NBProgressBar
 import com.example.numbers.ui.components.NBTopBar
 
 
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -49,10 +52,11 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { },
-                elevation = FloatingActionButtonDefaults.elevation(4.dp)
+                elevation = FloatingActionButtonDefaults.elevation(4.dp),
+                backgroundColor = MaterialTheme.colors.primary
             ) {
                 Icon(
-                    Icons.Default.ArrowForward,
+                    Icons.Default.KeyboardArrowUp,
                     "Nav to top",
                     tint = Color.White,
                     modifier = Modifier
@@ -104,7 +108,28 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                                 Text(text = "Get fact")
                             }
                         }
-                        Spacer(modifier = Modifier.padding(8.dp))
+                        FlowRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            NumberType.values().forEach { type ->
+                                FilterChip(
+                                    onClick = {
+                                        viewModel.typeChanged(type)
+                                    },
+                                    selected = state.value.type == type,
+                                    colors = ChipDefaults.filterChipColors(
+                                        selectedBackgroundColor = MaterialTheme.colors.primary,
+                                        selectedContentColor = MaterialTheme.colors.background,
+                                    )
+                                ) {
+                                    Text(text = type.name)
+                                }
+                            }
+                        }
                         OutlinedButton(
                             modifier = Modifier.fillMaxWidth(),
                             elevation = ButtonDefaults.elevation(),
@@ -132,6 +157,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                     })
             }
         }
-        if (state.value.isLoading) NBProgressBar()
+        if (state.value.isLoading) {
+            LocalFocusManager.current.clearFocus()
+            NBProgressBar()
+        }
     }
 }
