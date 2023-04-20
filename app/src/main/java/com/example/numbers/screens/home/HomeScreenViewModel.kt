@@ -36,7 +36,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun startSearch(isRandom: Boolean = false) {
         viewModelScope.launch {
-            if (_state.value.search.isEmpty()) {
+            if (!isRandom && _state.value.search.isEmpty()) {
                 showError("Enter your number first!")
                 return@launch
             }
