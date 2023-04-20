@@ -14,6 +14,7 @@ fun Navigator(navController: NavHostController = rememberNavController()) {
             HomeScreen(navController = navController)
         }
         composable(Routes.DETAILS + "{number}"){
+
           //  AddWordScreen(navController = navController)
         }
     }

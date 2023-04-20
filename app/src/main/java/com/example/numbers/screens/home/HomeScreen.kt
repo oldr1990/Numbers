@@ -150,9 +150,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hi
                 )
             } else items(state.value.list.size) { index ->
                 Text(
-                    text = state.value.list[index].number.toString(),
+                    text = state.value.list[index].number,
                     modifier = Modifier.clickable {
-                        navController.navigate(Routes.DETAILS + state.value.list[index].toJson)
+                        //navController.navigate(Routes.DETAILS + state.value.list[index].toJson)
 
                     })
             }
